@@ -8,8 +8,22 @@ bool first_hit(
   double & t,
   Eigen::Vector3d & n)
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here:
-  return false;
-  ////////////////////////////////////////////////////////////////////////////
+    bool hitFound = false;   
+    double closestHit = 0.0;   
+    double hit_t;     
+    Eigen::Vector3d hit_n;      
+    for (int i = 0; i < objects.size(); ++i) {
+        bool isHit = objects[i]->intersect(ray, min_t, hit_t, hit_n);
+        if (isHit) {
+            if (!hitFound || hit_t < closestHit) {
+                hit_id = i;
+                t = hit_t;
+                n = hit_n;
+                closestHit = hit_t;
+            }
+            hitFound = true;
+        }
+    }
+    return hitFound;
 }
+
